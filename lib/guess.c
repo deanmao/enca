@@ -23,6 +23,7 @@
 
 #include <math.h>
 
+#include <stdio.h>
 #include "enca.h"
 #include "internal.h"
 
@@ -377,6 +378,12 @@ make_guess(EncaAnalyserState *analyser)
   } else {
     assert(analyser->lang->ratinghook);
     analyser->lang->ratinghook(analyser);
+  }
+
+  for (i = 0; i < analyser->ncharsets; i++) {
+    fprintf(stdout, "score: %f, charset: ", ratings[i]);
+    fputs(enca_charset_name(analyser->charsets[i], ENCA_NAME_STYLE_ENCA), stdout);
+    fprintf(stdout, "\n");
   }
 
   /* Find winner and second best. */
